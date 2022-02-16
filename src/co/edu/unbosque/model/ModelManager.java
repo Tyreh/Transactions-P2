@@ -96,7 +96,37 @@ public class ModelManager {
         }
     }
 
-    public double sumTotalSales() {
+    public ArrayList<double[]> avgMonthlySales(boolean groupByCountry) {
+        int currentYear = 2010;
+        ArrayList<double[]> values = new ArrayList<>();
+        Calendar calendar = new GregorianCalendar();
+
+        double[] actualValues = new double[12];
+        for (int i = 0; i < transactionsArray.size(); i++) {
+            try {
+                Date transactionDate = CORRECT_DATE_FORMAT.parse(transactionsArray.get(i).getInvoiceDate());
+                calendar.setTime(transactionDate);
+                var month = calendar.get(Calendar.MONTH);
+                var year = calendar.get(Calendar.YEAR);
+                var currentSale = Double.parseDouble(transactionsArray.get(i).getQuantity()) * Double.parseDouble(transactionsArray.get(i).getUnitPrice());
+
+                if (currentYear == year) {
+                    actualValues[month] += currentSale;
+                } else {
+                    i--;
+                    currentYear = year;
+                    values.add(actualValues);
+                    actualValues = new double[12];
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+        values.add(actualValues);
+        return values;
+    }
+
+        public double sumTotalSales() {
         var total = 0.0;
         for (Transaction transaction : transactionsArray) {
             var aux = Double.parseDouble(transaction.getQuantity()) * Double.parseDouble(transaction.getUnitPrice());
@@ -128,37 +158,6 @@ public class ModelManager {
         }
         return array;
     }
-
-    public ArrayList<double[]> avgMonthlySales(boolean groupByCountry) {
-        int currentYear = 2010;
-        ArrayList<double[]> values = new ArrayList<>();
-        Calendar calendar = new GregorianCalendar();
-
-        double[] actualValues = new double[12];
-        for (int i = 0; i < transactionsArray.size(); i++) {
-            try {
-                Date transactionDate = CORRECT_DATE_FORMAT.parse(transactionsArray.get(i).getInvoiceDate());
-                calendar.setTime(transactionDate);
-                var month = calendar.get(Calendar.MONTH);
-                var year = calendar.get(Calendar.YEAR);
-                var currentSale = Double.parseDouble(transactionsArray.get(i).getQuantity()) * Double.parseDouble(transactionsArray.get(i).getUnitPrice());
-
-                if (currentYear == year) {
-                    actualValues[month] += currentSale;
-                } else {
-                    i--;
-                    currentYear = year;
-                    values.add(actualValues);
-                    actualValues = new double[12];
-                }
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
-        values.add(actualValues);
-        return values;
-    }
-
 /*
     public ArrayList<Transaction> findPartiallyByDescription(String search, boolean order, int initMonth, int endMonth) {
         ArrayList<Transaction> array = new ArrayList<>();
