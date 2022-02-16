@@ -4,14 +4,19 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.GregorianCalendar;
 
 public class ModelManager {
 
-    private final ArrayList<Transaction> transactionsArray;
+    private final ArrayList<Transaction> transactionsArray = new ArrayList<>();
+    private final SimpleDateFormat WRONG_DATE_FORMAT = new SimpleDateFormat("MM/dd/yyyy");
+    private final SimpleDateFormat CORRECT_DATE_FORMAT = new SimpleDateFormat("dd/MM/yyyy");
 
     public ModelManager(File file) {
-        transactionsArray = new ArrayList<>();
         uploadData(file);
     }
 
@@ -72,6 +77,13 @@ public class ModelManager {
                     customerId = separator[6];
                     country = separator[7];
 
+                    try {
+                        Date date = WRONG_DATE_FORMAT.parse(invoiceDate);
+                        invoiceDate = CORRECT_DATE_FORMAT.format(date);
+                    } catch (Exception ex) {
+                        ex.printStackTrace();
+                    }
+
                     Transaction transactionToAdd = new Transaction(invoiceNumber, stockCode, description, quantity, invoiceDate, unitPrice, customerId, country);
                     transactionsArray.add(transactionToAdd);
                 }
@@ -115,6 +127,36 @@ public class ModelManager {
             }
         }
         return array;
+    }
+
+    public ArrayList<double[]> avgMonthlySales(boolean groupByCountry) {
+        int currentYear = 2010;
+        ArrayList<double[]> values = new ArrayList<>();
+        Calendar calendar = new GregorianCalendar();
+
+        double[] actualValues = new double[12];
+        for (int i = 0; i < transactionsArray.size(); i++) {
+            try {
+                Date transactionDate = CORRECT_DATE_FORMAT.parse(transactionsArray.get(i).getInvoiceDate());
+                calendar.setTime(transactionDate);
+                var month = calendar.get(Calendar.MONTH);
+                var year = calendar.get(Calendar.YEAR);
+                var currentSale = Double.parseDouble(transactionsArray.get(i).getQuantity()) * Double.parseDouble(transactionsArray.get(i).getUnitPrice());
+
+                if (currentYear == year) {
+                    actualValues[month] += currentSale;
+                } else {
+                    i--;
+                    currentYear = year;
+                    values.add(actualValues);
+                    actualValues = new double[12];
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+        values.add(actualValues);
+        return values;
     }
 
 /*
