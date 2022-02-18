@@ -126,7 +126,7 @@ public class ModelManager {
         return values;
     }
 
-        public double sumTotalSales() {
+    public double sumTotalSales() {
         var total = 0.0;
         for (Transaction transaction : transactionsArray) {
             var aux = Double.parseDouble(transaction.getQuantity()) * Double.parseDouble(transaction.getUnitPrice());
@@ -158,54 +158,27 @@ public class ModelManager {
         }
         return array;
     }
-/*
+
     public ArrayList<Transaction> findPartiallyByDescription(String search, boolean order, int initMonth, int endMonth) {
-        ArrayList<Transaction> array = new ArrayList<>();
-
-        for (Transaction transaction : transactionsArray) {
-            var currentDescription = transaction.getDescription();
-            if (search.equalsIgnoreCase(currentDescription)) {
-                array.add(transaction);
-            }
-
-        }
-        return array;
-    }
-*/
-
-
-
-   /* public String avgMonthlySales(boolean groupByCountry) {
-        String text;
+        ArrayList<Transaction> foundTransactions = new ArrayList<>();
+        Calendar calendar = new GregorianCalendar();
 
         try {
-            String startDate = "01-01-2010";
-            SimpleDateFormat simpleDataFormat = new SimpleDateFormat("dd-MM-yyyy");
-            Calendar calendar = Calendar.getInstance();
-            calendar.setTime(simpleDataFormat.parse(startDate));
-            calendar.add(Calendar.DATE, 1);  // number of days to add
-            startDate = simpleDataFormat.format(calendar.getTime());  // dt is now the new date
-
-            for (Transaction transactions : transactionsArray) {
-                var separator = transactions.getInvoiceDate().split("/");
-                var month = Integer.parseInt(separator[1]);
-
-
-
+            for (Transaction transaction : transactionsArray) {
+                var currentDescription = transaction.getDescription();
+                var invoiceDate = CORRECT_DATE_FORMAT.parse(transaction.getInvoiceDate());
+                calendar.setTime(invoiceDate);
+                var month = calendar.get(Calendar.MONTH);
+                if (currentDescription.contains(search)) {
+                    if (month >= (initMonth - 1) && month <= (endMonth - 1)) {
+                        foundTransactions.add(transaction);
+                    }
+                }
             }
-        } catch (Exception e) {
-            e.printStackTrace();
+        } catch (Exception ex) {
+            ex.printStackTrace();
         }
-
-        for(Transaction transaction : transactionsArray) {
-            String[] separator = transaction.getInvoiceDate().split("/");
-
-            var currentStock = transaction.getStockCode();
-        }
-        if (groupByCountry) {
-
-        } else {
-
-        }*/
+        return foundTransactions;
+    }
 }
 
