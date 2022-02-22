@@ -14,7 +14,7 @@ public class MainPanel extends JPanel {
     private final JButton[] buttons = new JButton[5];
 
     /**
-     * Constructor de la clase
+     * Constructor de la clase MainPanel
      */
     public MainPanel() {
         this.setLayout(new FlowLayout());

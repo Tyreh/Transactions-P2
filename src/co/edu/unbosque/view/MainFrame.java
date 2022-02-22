@@ -30,7 +30,7 @@ public class MainFrame extends JFrame {
     private final AveragePanel averagePanel = new AveragePanel();
 
     /**
-     * Constructor de la clase
+     * Constructor de la clase MainPanel
      */
     public MainFrame() {
         setTitle("Transactions");
