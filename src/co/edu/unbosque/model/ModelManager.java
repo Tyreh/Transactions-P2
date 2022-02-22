@@ -5,20 +5,16 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.GregorianCalendar;
+import java.util.*;
 
 public class ModelManager {
 
     private final ArrayList<Transaction> transactionsArray = new ArrayList<>();
-    private final SimpleDateFormat WRONG_DATE_FORMAT = new SimpleDateFormat("MM/dd/yyyy");
-    private final SimpleDateFormat CORRECT_DATE_FORMAT = new SimpleDateFormat("dd/MM/yyyy");
+    private final SimpleDateFormat wrongDateFormat = new SimpleDateFormat("MM/dd/yyyy");
+    private final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("dd/MM/yyyy");
 
     public ModelManager(File file) {
         uploadData(file);
-
     }
 
     public void uploadData(File file) {
@@ -79,8 +75,8 @@ public class ModelManager {
                     country = separator[7];
 
                     try {
-                        Date date = WRONG_DATE_FORMAT.parse(invoiceDate);
-                        invoiceDate = CORRECT_DATE_FORMAT.format(date);
+                        Date date = wrongDateFormat.parse(invoiceDate);
+                        invoiceDate = DATE_FORMAT.format(date);
                     } catch (Exception ex) {
                         ex.printStackTrace();
                     }
@@ -97,6 +93,61 @@ public class ModelManager {
         }
     }
 
+    public double sumTotalSales() {
+        var total = 0.0;
+        for (Transaction transaction : transactionsArray) {
+            var aux = Double.parseDouble(transaction.getQuantity()) * Double.parseDouble(transaction.getUnitPrice());
+            total += aux;
+        }
+        return total;
+    }
+
+    public ArrayList<Transaction> findByInvoiceNo(String invoiceNo) {
+        ArrayList<Transaction> foundInvoices = new ArrayList<>();
+
+        for (Transaction transaction : transactionsArray) {
+            var currentInvoice = transaction.getInvoiceNumber();
+            if (invoiceNo.equalsIgnoreCase(currentInvoice)) {
+                foundInvoices.add(transaction);
+            }
+        }
+        return foundInvoices;
+    }
+
+    public ArrayList<Transaction> countByStockCode(String stockCode) {
+        ArrayList<Transaction> foundStockCodes = new ArrayList<>();
+
+        for (Transaction transaction : transactionsArray) {
+            var currentStock = transaction.getStockCode();
+            if (stockCode.equalsIgnoreCase(currentStock)) {
+                foundStockCodes.add(transaction);
+            }
+        }
+        return foundStockCodes;
+    }
+
+    public ArrayList<Transaction> findPartiallyByDescription(String search, boolean order, int initMonth, int endMonth) {
+        ArrayList<Transaction> foundTransactions = new ArrayList<>();
+        Calendar calendar = new GregorianCalendar();
+
+        try {
+            for (Transaction transaction : transactionsArray) {
+                var currentDescription = transaction.getDescription();
+                var invoiceDate = DATE_FORMAT.parse(transaction.getInvoiceDate());
+                calendar.setTime(invoiceDate);
+                var month = calendar.get(Calendar.MONTH);
+                if (currentDescription.contains(search)) {
+                    if (month >= (initMonth - 1) && month <= (endMonth - 1)) {
+                        foundTransactions.add(transaction);
+                    }
+                }
+            }
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+        return foundTransactions;
+    }
+
     public ArrayList<double[]> avgMonthlySales(boolean groupByCountry) {
         int currentYear = 2010;
         ArrayList<double[]> values = new ArrayList<>();
@@ -105,7 +156,7 @@ public class ModelManager {
         double[] actualValues = new double[12];
         for (int i = 0; i < transactionsArray.size(); i++) {
             try {
-                Date transactionDate = CORRECT_DATE_FORMAT.parse(transactionsArray.get(i).getInvoiceDate());
+                Date transactionDate = DATE_FORMAT.parse(transactionsArray.get(i).getInvoiceDate());
                 calendar.setTime(transactionDate);
                 var month = calendar.get(Calendar.MONTH);
                 var year = calendar.get(Calendar.YEAR);
@@ -127,51 +178,9 @@ public class ModelManager {
         return values;
     }
 
-        public double sumTotalSales() {
-        var total = 0.0;
-        for (Transaction transaction : transactionsArray) {
-            var aux = Double.parseDouble(transaction.getQuantity()) * Double.parseDouble(transaction.getUnitPrice());
-            total += aux;
-        }
-        return total;
+    public ArrayList<Transaction> getTransactionsArray() {
+        return transactionsArray;
     }
-
-    public ArrayList<Transaction> findByInvoiceNo(String invoiceNo) {
-        ArrayList<Transaction> array = new ArrayList<>();
-
-        for (Transaction transaction : transactionsArray) {
-            var currentInvoice = transaction.getInvoiceNumber();
-            if (invoiceNo.equalsIgnoreCase(currentInvoice)) {
-                array.add(transaction);
-            }
-        }
-        return array;
-    }
-
-    public ArrayList<Transaction> countByStockCode(String stockCode) {
-        ArrayList<Transaction> array = new ArrayList<>();
-
-        for (Transaction transaction : transactionsArray) {
-            var currentStock = transaction.getStockCode();
-            if (stockCode.equalsIgnoreCase(currentStock)) {
-                array.add(transaction);
-            }
-        }
-        return array;
-    }
-/*
-    public ArrayList<Transaction> findPartiallyByDescription(String search, boolean order, int initMonth, int endMonth) {
-        ArrayList<Transaction> array = new ArrayList<>();
-
-        for (Transaction transaction : transactionsArray) {
-            var currentDescription = transaction.getDescription();
-            if (search.equalsIgnoreCase(currentDescription)) {
-                array.add(transaction);
-            }
-
-        }
-        return array;
-    }
-*/
 }
+
 
