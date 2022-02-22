@@ -26,16 +26,28 @@ public class TableManager extends JPanel {
         }
     }
 
-    public TableManager(boolean footerPanel, String buttonText, String commandButton, String[] columns, String[] checkBoxLabelArray, String[] commandCheckBox) {
+    public TableManager(boolean footerPanel, String buttonText, Object commandButton, String[] columns, String[] checkBoxLabelArray) {
         this.setLayout(new BorderLayout());
 
-        this.add(headerPanel(buttonText, commandButton, checkBoxLabelArray, commandCheckBox), BorderLayout.PAGE_START);
+        this.add(headerPanel(buttonText, commandButton, checkBoxLabelArray), BorderLayout.PAGE_START);
         this.add(centerPanel(columns), BorderLayout.CENTER);
 
         if (footerPanel) {
             this.add(this.footerPanel(), BorderLayout.PAGE_END);
         }
     }
+
+    public TableManager(boolean footerPanel, String buttonText, String commandButton, String[] columns, String[] fieldLabelArray, String[] checkBoxLabelsArray) {
+        this.setLayout(new BorderLayout());
+
+        this.add(headerPanel(buttonText, commandButton, fieldLabelArray, checkBoxLabelsArray), BorderLayout.PAGE_START);
+        this.add(centerPanel(columns), BorderLayout.CENTER);
+
+        if (footerPanel) {
+            this.add(this.footerPanel(), BorderLayout.PAGE_END);
+        }
+    }
+
 
     private JPanel headerPanel(String buttonText, String commandButton, String[] fieldLabelArray) {
         var panel = new JPanel(new FlowLayout());
@@ -53,15 +65,38 @@ public class TableManager extends JPanel {
         return panel;
     }
 
-    private JPanel headerPanel(String buttonText, String commandButton, String[] checkBoxLabelArray, String[] commandCheckBox) {
+    private JPanel headerPanel(String buttonText, String commandButton, String[] fieldLabelArray, String[] checkBoxLabelArray) {
         var panel = new JPanel(new FlowLayout());
+        this.textFieldsArray = new JTextField[fieldLabelArray.length];
         this.checkBoxesArray = new JCheckBox[checkBoxLabelArray.length];
         this.button = new JButton(buttonText);
         this.button.setActionCommand(commandButton);
 
+        for (int i = 0; i < textFieldsArray.length; i++) {
+            this.textFieldsArray[i] = new JTextField(10);
+            JLabel label = new JLabel(fieldLabelArray[i]);
+            panel.add(label);
+            panel.add(this.textFieldsArray[i]);
+        }
+
+        for (int i = 0; i < checkBoxesArray.length; i++) {
+            this.checkBoxesArray[i] = new JCheckBox();
+            JLabel label = new JLabel(checkBoxLabelArray[i]);
+            panel.add(label);
+            panel.add(this.checkBoxesArray[i]);
+        }
+        panel.add(button);
+        return panel;
+    }
+
+    private JPanel headerPanel(String buttonText, Object commandButton, String[] checkBoxLabelArray) {
+        var panel = new JPanel(new FlowLayout());
+        this.checkBoxesArray = new JCheckBox[checkBoxLabelArray.length];
+        this.button = new JButton(buttonText);
+        this.button.setActionCommand((String) commandButton);
+
         for (int i = 0; i < checkBoxLabelArray.length; i++) {
             this.checkBoxesArray[i] = new JCheckBox(checkBoxLabelArray[i]);
-            this.checkBoxesArray[i].setActionCommand(commandCheckBox[i]);
             panel.add(this.checkBoxesArray[i]);
         }
         panel.add(button);
