@@ -18,6 +18,7 @@ public class ModelManager {
 
     public ModelManager(File file) {
         uploadData(file);
+
     }
 
     public void uploadData(File file) {
@@ -121,6 +122,23 @@ public class ModelManager {
             } catch (Exception e) {
                 e.printStackTrace();
             }
+
+           if(groupByCountry){
+               try {
+                   for (int j = 0; j < transactionsArray.size(); j++) {
+                       for (Transaction transaction : transactionsArray) {
+                           var country = transaction.getCountry();
+                           var sales = transaction.getUnitPrice();
+                       }
+                       var month = calendar.get(Calendar.MONTH);
+                       var avg = Double.parseDouble(transactionsArray.get(j).getQuantity()) * Double.parseDouble(transactionsArray.get(j).getUnitPrice()) / 30;
+                   }
+
+               } catch (Exception e){
+                   e.printStackTrace();
+               }
+           }
+
         }
         values.add(actualValues);
         return values;

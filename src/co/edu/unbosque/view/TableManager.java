@@ -13,30 +13,35 @@ public class TableManager extends JPanel {
     protected JTextField textField;
     protected JButton button;
     protected JLabel label;
-    protected JLabel amountSold;
+    protected JLabel footerLabel;
+    protected JComboBox<String> comboBox;
 
-    public TableManager(boolean footerPanel, String[] columns) {
+    public TableManager(boolean footerPanel, boolean comboBox, String[] columns) {
         this.columns = columns;
         this.setLayout(new BorderLayout());
-        this.init();
+        this.init(comboBox);
 
         if (footerPanel) {
             this.add(this.footerPanel(), BorderLayout.PAGE_END);
         }
     }
 
-    private void init() {
-        this.add(this.headerPanel(), BorderLayout.PAGE_START);
+    private void init(boolean comboBox) {
+        this.add(this.headerPanel(comboBox), BorderLayout.PAGE_START);
         this.add(this.centerPanel(), BorderLayout.CENTER);
     }
 
-    private JPanel headerPanel() {
+    private JPanel headerPanel(boolean comboBox) {
         var panel = new JPanel(new FlowLayout());
         this.label = new JLabel();
         this.textField = new JTextField(20);
         this.button = new JButton();
         panel.add(label);
         panel.add(textField);
+        if (comboBox) {
+            this.comboBox = new JComboBox<>();
+            panel.add(this.comboBox);
+        }
         panel.add(button);
         return panel;
     }
@@ -54,9 +59,9 @@ public class TableManager extends JPanel {
 
     protected JPanel footerPanel() {
         var panel = new JPanel(new FlowLayout());
-        this.amountSold = new JLabel();
-        this.amountSold.setFont(new Font("", Font.BOLD, 15));
-        panel.add(amountSold);
+        this.footerLabel = new JLabel();
+        this.footerLabel.setFont(new Font("", Font.BOLD, 15));
+        panel.add(footerLabel);
         return panel;
     }
 
@@ -100,12 +105,11 @@ public class TableManager extends JPanel {
         this.button = button;
     }
 
-    public JLabel getAmountSold() {
-        return amountSold;
+    public JLabel getFooterLabel() {
+        return footerLabel;
     }
 
-    public void setAmountSold(JLabel amountSold) {
-        this.amountSold = amountSold;
+    public void setFooterLabel(JLabel footerLabel) {
+        this.footerLabel = footerLabel;
     }
 }
-
