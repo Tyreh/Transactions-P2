@@ -6,49 +6,71 @@ import java.awt.*;
 
 public class TableManager extends JPanel {
 
-    private final String[] columns;
     protected JTable table;
     protected JScrollPane scrollTable;
     protected DefaultTableModel defaultTableModel;
-    protected JTextField textField;
-    protected JButton button;
-    protected JLabel label;
-    protected JLabel footerLabel;
-    protected JComboBox<String> comboBox;
 
-    public TableManager(boolean footerPanel, boolean comboBox, String[] columns) {
-        this.columns = columns;
+    protected JTextField[] textFieldsArray;
+    protected JCheckBox[] checkBoxesArray;
+    protected JButton button;
+    protected JLabel footerLabel;
+
+    public TableManager(boolean footerPanel, String buttonText, String commandButton, String[] columns, String[] fieldLabelArray) {
         this.setLayout(new BorderLayout());
-        this.init(comboBox);
+
+        this.add(headerPanel(buttonText, commandButton, fieldLabelArray), BorderLayout.PAGE_START);
+        this.add(centerPanel(columns), BorderLayout.CENTER);
 
         if (footerPanel) {
             this.add(this.footerPanel(), BorderLayout.PAGE_END);
         }
     }
 
-    private void init(boolean comboBox) {
-        this.add(this.headerPanel(comboBox), BorderLayout.PAGE_START);
-        this.add(this.centerPanel(), BorderLayout.CENTER);
+    public TableManager(boolean footerPanel, String buttonText, String commandButton, String[] columns, String[] checkBoxLabelArray, String[] commandCheckBox) {
+        this.setLayout(new BorderLayout());
+
+        this.add(headerPanel(buttonText, commandButton, checkBoxLabelArray, commandCheckBox), BorderLayout.PAGE_START);
+        this.add(centerPanel(columns), BorderLayout.CENTER);
+
+        if (footerPanel) {
+            this.add(this.footerPanel(), BorderLayout.PAGE_END);
+        }
     }
 
-    private JPanel headerPanel(boolean comboBox) {
+    private JPanel headerPanel(String buttonText, String commandButton, String[] fieldLabelArray) {
         var panel = new JPanel(new FlowLayout());
-        this.label = new JLabel();
-        this.textField = new JTextField(20);
-        this.button = new JButton();
-        panel.add(label);
-        panel.add(textField);
-        if (comboBox) {
-            this.comboBox = new JComboBox<>();
-            panel.add(this.comboBox);
+        this.textFieldsArray = new JTextField[fieldLabelArray.length];
+        this.button = new JButton(buttonText);
+        this.button.setActionCommand(commandButton);
+
+        for (int i = 0; i < textFieldsArray.length; i++) {
+            this.textFieldsArray[i] = new JTextField(10);
+            JLabel label = new JLabel(fieldLabelArray[i]);
+            panel.add(label);
+            panel.add(this.textFieldsArray[i]);
         }
         panel.add(button);
         return panel;
     }
 
-    private JPanel centerPanel() {
+    private JPanel headerPanel(String buttonText, String commandButton, String[] checkBoxLabelArray, String[] commandCheckBox) {
+        var panel = new JPanel(new FlowLayout());
+        this.checkBoxesArray = new JCheckBox[checkBoxLabelArray.length];
+        this.button = new JButton(buttonText);
+        this.button.setActionCommand(commandButton);
+
+        for (int i = 0; i < checkBoxLabelArray.length; i++) {
+            this.checkBoxesArray[i] = new JCheckBox(checkBoxLabelArray[i]);
+            this.checkBoxesArray[i].setActionCommand(commandCheckBox[i]);
+            panel.add(this.checkBoxesArray[i]);
+        }
+        panel.add(button);
+        return panel;
+    }
+
+    private JPanel centerPanel(String[] columns) {
         var panel = new JPanel(new GridLayout());
-        this.defaultTableModel = new DefaultTableModel(this.columns, 0);
+        this.defaultTableModel = new DefaultTableModel(columns, 0);
         this.table = new JTable(this.defaultTableModel);
         this.table.setEnabled(false);
         this.table.getTableHeader().setReorderingAllowed(false);
@@ -89,14 +111,6 @@ public class TableManager extends JPanel {
         this.scrollTable = scrollTable;
     }
 
-    public JTextField getTextField() {
-        return textField;
-    }
-
-    public void setTextField(JTextField textField) {
-        this.textField = textField;
-    }
-
     public JButton getButton() {
         return button;
     }
@@ -111,5 +125,21 @@ public class TableManager extends JPanel {
 
     public void setFooterLabel(JLabel footerLabel) {
         this.footerLabel = footerLabel;
+    }
+
+    public JTextField[] getTextFieldsArray() {
+        return textFieldsArray;
+    }
+
+    public void setTextFieldsArray(JTextField[] textFieldsArray) {
+        this.textFieldsArray = textFieldsArray;
+    }
+
+    public JCheckBox[] getCheckBoxesArray() {
+        return checkBoxesArray;
+    }
+
+    public void setCheckBoxesArray(JCheckBox[] checkBoxesArray) {
+        this.checkBoxesArray = checkBoxesArray;
     }
 }
