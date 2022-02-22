@@ -5,10 +5,11 @@ import java.awt.*;
 
 public class MainFrame extends JFrame {
 
-    private MainPanel mainPanel;
-    private InvoicePanel invoicePanel;
-    private SoldStockPanel soldStockPanel;
-    private DescriptionPanel descriptionPanel;
+    private final MainPanel mainPanel = new MainPanel();
+    private final InvoicePanel invoicePanel = new InvoicePanel();
+    private final SoldStockPanel soldStockPanel = new SoldStockPanel();
+    private final DescriptionPanel descriptionPanel = new DescriptionPanel();
+    private final AveragePanel averagePanel = new AveragePanel();
 
     public MainFrame() {
         setTitle("Transactions");
@@ -22,12 +23,7 @@ public class MainFrame extends JFrame {
     }
 
     public void init() {
-        mainPanel = new MainPanel();
         add(mainPanel, BorderLayout.PAGE_START);
-
-        invoicePanel = new InvoicePanel();
-        soldStockPanel = new SoldStockPanel();
-        descriptionPanel = new DescriptionPanel();
     }
 
     public MainPanel getMainPanel() {
@@ -38,24 +34,15 @@ public class MainFrame extends JFrame {
         return invoicePanel;
     }
 
-    public void setInvoicePanel(InvoicePanel invoicePanel) {
-        this.invoicePanel = invoicePanel;
-    }
-
     public SoldStockPanel getSoldStockPanel() {
         return soldStockPanel;
-    }
-
-    public void setSoldStockPanel(SoldStockPanel soldStockPanel) {
-        this.soldStockPanel = soldStockPanel;
     }
 
     public DescriptionPanel getDescriptionPanel() {
         return descriptionPanel;
     }
 
-    public void setDescriptionPanel(DescriptionPanel descriptionPanel) {
-        this.descriptionPanel = descriptionPanel;
+    public AveragePanel getAveragePanel() {
+        return averagePanel;
     }
 }
-
