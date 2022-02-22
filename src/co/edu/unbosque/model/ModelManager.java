@@ -1,5 +1,7 @@
 package co.edu.unbosque.model;
 
+import co.edu.unbosque.view.Messages;
+
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
@@ -127,6 +129,10 @@ public class ModelManager {
     }
 
     public ArrayList<Transaction> findPartiallyByDescription(String search, boolean order, int initMonth, int endMonth) {
+        if ((endMonth < initMonth) || (endMonth > 12) || (initMonth < 1)) {
+            return null;
+        }
+
         ArrayList<Transaction> foundTransactions = new ArrayList<>();
         Calendar calendar = new GregorianCalendar();
 
@@ -145,6 +151,25 @@ public class ModelManager {
         } catch (Exception ex) {
             ex.printStackTrace();
         }
+
+        if (order) {
+
+            for (var transaction : foundTransactions) {
+                System.out.println(transaction.getQuantity());
+            }
+
+            System.out.println("========================");
+            System.out.println("========================");
+            System.out.println("========================");
+            System.out.println("========================");
+            System.out.println("========================");
+            System.out.println("========================");
+            QuickSort.quicksort(foundTransactions, 0, (foundTransactions.size() - 1));
+            for (var transaction : foundTransactions) {
+                System.out.println(transaction.getQuantity());
+            }
+        }
+
         return foundTransactions;
     }
 
