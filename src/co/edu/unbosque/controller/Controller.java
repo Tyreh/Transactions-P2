@@ -102,14 +102,21 @@ public class Controller implements ActionListener {
                 try {
                     DescriptionPanel descriptionPanel = mainFrame.getDescriptionPanel();
                     var descriptionSearch = descriptionPanel.getTextFieldsArray()[0].getText();
-                    var descriptionInitMonth = Integer.parseInt(descriptionPanel.getTextFieldsArray()[1].getText());
-                    var descriptionEndMonth = Integer.parseInt(descriptionPanel.getTextFieldsArray()[2].getText());
+                    var descriptionInitMonth = descriptionPanel.getTextFieldsArray()[1].getText().equals("") ? 1 : Integer.parseInt(descriptionPanel.getTextFieldsArray()[1].getText());
+                    var descriptionEndMonth = descriptionPanel.getTextFieldsArray()[2].getText().equals("") ? 12 : Integer.parseInt(descriptionPanel.getTextFieldsArray()[2].getText());
                     var descriptionTableModel = descriptionPanel.getDefaultTableModel();
                     var descriptionNotFound = "No description contains \"" + descriptionSearch + "\".";
-                    var descriptionFoundTransactions = modelManager.findPartiallyByDescription(descriptionSearch, true, descriptionInitMonth, descriptionEndMonth);
-                    this.addTransactionsToTable(descriptionTableModel, descriptionFoundTransactions, descriptionNotFound);
+
+                    if (descriptionSearch.equals("")) {
+                        Messages.showError("You must put a word in the search field.");
+                    } else {
+                        var descriptionFoundTransactions = modelManager.findPartiallyByDescription(descriptionSearch, true, descriptionInitMonth, descriptionEndMonth);
+                        this.addTransactionsToTable(descriptionTableModel, descriptionFoundTransactions, descriptionNotFound);
+                    }
                 } catch (NumberFormatException ex) {
                     Messages.showError("Init month and end month fields must be numbers.");
+                } catch (NullPointerException ex2) {
+                    Messages.showError("The init month and end month must be in a range from 1 to 12 respectively.");
                 }
                 break;
             case "AVERAGE_SEARCH":
