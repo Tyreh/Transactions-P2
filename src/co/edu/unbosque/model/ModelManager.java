@@ -122,23 +122,6 @@ public class ModelManager {
             } catch (Exception e) {
                 e.printStackTrace();
             }
-
-           if(groupByCountry){
-               try {
-                   for (int j = 0; j < transactionsArray.size(); j++) {
-                       for (Transaction transaction : transactionsArray) {
-                           var country = transaction.getCountry();
-                           var sales = transaction.getUnitPrice();
-                       }
-                       var month = calendar.get(Calendar.MONTH);
-                       var avg = Double.parseDouble(transactionsArray.get(j).getQuantity()) * Double.parseDouble(transactionsArray.get(j).getUnitPrice()) / 30;
-                   }
-
-               } catch (Exception e){
-                   e.printStackTrace();
-               }
-           }
-
         }
         values.add(actualValues);
         return values;
@@ -190,40 +173,5 @@ public class ModelManager {
         return array;
     }
 */
-
-
-
-   /* public String avgMonthlySales(boolean groupByCountry) {
-        String text;
-
-        try {
-            String startDate = "01-01-2010";
-            SimpleDateFormat simpleDataFormat = new SimpleDateFormat("dd-MM-yyyy");
-            Calendar calendar = Calendar.getInstance();
-            calendar.setTime(simpleDataFormat.parse(startDate));
-            calendar.add(Calendar.DATE, 1);  // number of days to add
-            startDate = simpleDataFormat.format(calendar.getTime());  // dt is now the new date
-
-            for (Transaction transactions : transactionsArray) {
-                var separator = transactions.getInvoiceDate().split("/");
-                var month = Integer.parseInt(separator[1]);
-
-
-
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-        for(Transaction transaction : transactionsArray) {
-            String[] separator = transaction.getInvoiceDate().split("/");
-
-            var currentStock = transaction.getStockCode();
-        }
-        if (groupByCountry) {
-
-        } else {
-
-        }*/
 }
 
