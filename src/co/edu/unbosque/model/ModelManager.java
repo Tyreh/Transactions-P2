@@ -8,6 +8,11 @@ import java.util.*;
 
 /**
  * The type Model manager.
+ *
+ * @author Oscar Moreno
+ * @author Nelson Fandiño
+ * @author Tomas Espitia
+ * @author Nicolas Rodriguez
  */
 public class ModelManager {
 
@@ -193,6 +198,7 @@ public class ModelManager {
         double[] monthValues = new double[12];
         int[] counter = new int[12];
         HashMap<String, double[]> countryValues = new HashMap<>();
+        HashMap<String, int[]> countryValuesCounter = new HashMap<>();
 
         if (groupByCountry) {
             for (int i = 0; i < transactionsArray.size(); i++) {
@@ -203,21 +209,31 @@ public class ModelManager {
                     var currentSale = Double.parseDouble(transactionsArray.get(i).getQuantity()) * Double.parseDouble(transactionsArray.get(i).getUnitPrice());
                     var country = transactionsArray.get(i).getCountry();
 
-                    monthValues[month] += currentSale;
+                    //monthValues[month] += currentSale;
                     var countryMonths = countryValues.get(country);
+                    var countryMonthsCounter = countryValuesCounter.get(country);
 
                     if (countryMonths == null) {
                         countryValues.put(country, new double[12]);
+                        countryValuesCounter.put(country, new int[12]);
                         i--;
                     } else {
                         countryMonths[month] += currentSale;
+                        countryMonthsCounter[month]++;
                         countryValues.put(country, countryMonths);
-                        counter[month]++;
+                        countryValuesCounter.put(country, countryMonthsCounter);
                     }
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
+            }
 
+            for (var entry : countryValues.entrySet()) {
+                var arrayDouble = entry.getValue();
+                var test = countryValuesCounter.get(entry.getKey());
+                for (int i = 0; i < arrayDouble.length; i++) {
+                    arrayDouble[i] /= test[i];
+                }
             }
 
             for (var entry : countryValues.entrySet()) {
