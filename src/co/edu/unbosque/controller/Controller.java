@@ -55,8 +55,13 @@ public class Controller implements ActionListener {
 
     public void registerItemListeners() {
         var averageCheckBoxes = mainFrame.getAveragePanel().getCheckBoxesArray();
+        var descriptionCheckBoxes = mainFrame.getDescriptionPanel().getCheckBoxesArray();
 
         for (var checkBox : averageCheckBoxes) {
+            checkBox.addItemListener(this::itemStateChanged);
+        }
+
+        for (var checkBox : descriptionCheckBoxes) {
             checkBox.addItemListener(this::itemStateChanged);
         }
     }
@@ -110,7 +115,7 @@ public class Controller implements ActionListener {
                     if (descriptionSearch.equals("")) {
                         Messages.showError("You must put a word in the search field.");
                     } else {
-                        var descriptionFoundTransactions = modelManager.findPartiallyByDescription(descriptionSearch, true, descriptionInitMonth, descriptionEndMonth);
+                        var descriptionFoundTransactions = modelManager.findPartiallyByDescription(descriptionSearch, (checkBoxState == 1), descriptionInitMonth, descriptionEndMonth);
                         this.addTransactionsToTable(descriptionTableModel, descriptionFoundTransactions, descriptionNotFound);
                     }
                 } catch (NumberFormatException ex) {
