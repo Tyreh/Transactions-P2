@@ -30,37 +30,21 @@ public class ModelManager {
      */
 
     public void uploadData(File file) {
-        ArrayList<String> csvContent = new ArrayList<>();
-        BufferedReader bufferedReader;
+        long startTime = System.currentTimeMillis();
 
         try {
-            bufferedReader = new BufferedReader(new FileReader(file));
+            BufferedReader bufferedReader = new BufferedReader(new FileReader(file));
             if (file.exists()) {
                 String line = bufferedReader.readLine();
+                line = bufferedReader.readLine();
                 while (line != null) {
-                    csvContent.add(line);
-                    line = bufferedReader.readLine();
-                }
-                bufferedReader.close();
-
-                csvContent.remove(0);
-                for (String csvLine : csvContent) {
                     String[] separator;
-                    String invoiceNumber;
-                    String stockCode;
-                    String description;
-                    String quantity;
-                    String invoiceDate;
-                    String unitPrice;
-                    String customerId;
-                    String country;
-
-                    if (csvLine.contains("\"")) {
+                    if (line.contains("\"")) {
                         separator = new String[8];
                         StringBuilder temp = new StringBuilder();
                         boolean isQuote = false;
                         int counter = 0;
-                        for (char c : csvLine.toCharArray()) {
+                        for (char c : line.toCharArray()) {
                             if (c == '"') {
                                 isQuote = !isQuote;
                             }
@@ -74,33 +58,34 @@ public class ModelManager {
                         }
                         separator[counter] = temp.toString();
                     } else {
-                        separator = csvLine.split(",");
+                        separator = line.split(",");
                     }
 
-                    invoiceNumber = separator[0];
-                    stockCode = separator[1];
-                    description = separator[2];
-                    quantity = separator[3];
-                    invoiceDate = separator[4];
-                    unitPrice = separator[5];
-                    customerId = separator[6];
-                    country = separator[7];
+                    String invoiceNumber = separator[0];
+                    String stockCode = separator[1];
+                    String description = separator[2];
+                    String quantity = separator[3];
+                    String invoiceDate = separator[4];
+                    String unitPrice = separator[5];
+                    String customerId = separator[6];
+                    String country = separator[7];
 
-                    try {
-                        Date date = WRONG_DATE_FORMAT.parse(invoiceDate);
-                        invoiceDate = CORRECT_DATE_FORMAT.format(date);
-                    } catch (Exception ex) {
-                        ex.printStackTrace();
-                    }
+                    Date date = WRONG_DATE_FORMAT.parse(invoiceDate);
+                    invoiceDate = CORRECT_DATE_FORMAT.format(date);
 
                     Transaction transactionToAdd = new Transaction(invoiceNumber, stockCode, description, quantity, invoiceDate, unitPrice, customerId, country);
                     transactionsArray.add(transactionToAdd);
+
+                    line = bufferedReader.readLine();
                 }
-                System.out.println("The file upload process is finished!");
+                bufferedReader.close();
+
+                long endTime = System.currentTimeMillis();
+                System.out.println("The file upload process finished in " + (endTime - startTime) + "ms.");
             } else {
                 System.out.println("The specified file does not exist!");
             }
-        } catch (IOException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
