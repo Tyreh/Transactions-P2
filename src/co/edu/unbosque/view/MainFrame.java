@@ -4,7 +4,7 @@ import javax.swing.*;
 import java.awt.*;
 
 /**
- * Clase que permite crear el frame principal de la vista
+ * The type Main frame.
  */
 public class MainFrame extends JFrame {
 
@@ -30,11 +30,11 @@ public class MainFrame extends JFrame {
     private final AveragePanel averagePanel = new AveragePanel();
 
     /**
-     * Constructor de la clase MainPanel
+     * Instantiates a new Main frame.
      */
     public MainFrame() {
         setTitle("Transactions");
-        setSize(1000,500);
+        setSize(1000, 500);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         getContentPane().setLayout(new BorderLayout());
         init();
@@ -44,31 +44,54 @@ public class MainFrame extends JFrame {
     }
 
     /**
-     * Metodo que permite iniciar cada objeto en el frame
+     * Init.
      */
     public void init() {
         add(mainPanel, BorderLayout.PAGE_START);
     }
 
+
     /**
-     * Getter and Setters
+     * Gets main panel.
+     *
+     * @return the main panel
      */
     public MainPanel getMainPanel() {
         return mainPanel;
     }
 
+    /**
+     * Gets invoice panel.
+     *
+     * @return the invoice panel
+     */
     public InvoicePanel getInvoicePanel() {
         return invoicePanel;
     }
 
+    /**
+     * Gets sold stock panel.
+     *
+     * @return the sold stock panel
+     */
     public SoldStockPanel getSoldStockPanel() {
         return soldStockPanel;
     }
 
+    /**
+     * Gets description panel.
+     *
+     * @return the description panel
+     */
     public DescriptionPanel getDescriptionPanel() {
         return descriptionPanel;
     }
 
+    /**
+     * Gets average panel.
+     *
+     * @return the average panel
+     */
     public AveragePanel getAveragePanel() {
         return averagePanel;
     }
