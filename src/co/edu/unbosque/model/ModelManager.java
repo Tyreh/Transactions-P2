@@ -5,6 +5,7 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
+import java.time.Month;
 import java.util.*;
 
 public class ModelManager {
@@ -191,34 +192,116 @@ public class ModelManager {
      * @return el promedio de todos los paises
      */
 
-    public ArrayList<double[]> avgMonthlySales(boolean groupByCountry) {
-        int currentYear = 2010;
-        ArrayList<double[]> values = new ArrayList<>();
+    public Object avgMonthlySales(boolean groupByCountry) {
         Calendar calendar = new GregorianCalendar();
 
-        double[] actualValues = new double[12];
-        for (int i = 0; i < transactionsArray.size(); i++) {
+        double[] monthValues = new double[12];
+        int[] counter = new int[12];
+        HashMap<String, double[]> countryValues = new HashMap<>();
+
+        if (groupByCountry) {
+            for (int i = 0; i < transactionsArray.size(); i++) {
+                try {
+                    Date transactionDate = CORRECT_DATE_FORMAT.parse(transactionsArray.get(i).getInvoiceDate());
+                    calendar.setTime(transactionDate);
+                    var month = calendar.get(Calendar.MONTH);
+                    var currentSale = Double.parseDouble(transactionsArray.get(i).getQuantity()) * Double.parseDouble(transactionsArray.get(i).getUnitPrice());
+                    var country = transactionsArray.get(i).getCountry();
+
+                        monthValues[month] += currentSale;
+                        var countryMonths = countryValues.get(country);
+
+                        if (countryMonths == null) {
+                            countryValues.put(country, new double[12]);
+                            i--;
+                        } else {
+                            countryMonths[month] += currentSale;
+                            countryValues.put(country, countryMonths);
+                            counter[month]++;
+                        }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+
+            }
+
+            for (var entry : countryValues.entrySet()) {
+                System.out.println(entry.getKey() + " ----> " + Arrays.toString(entry.getValue()));
+            }
+            return countryValues;
+        } else {
+            for (Transaction transaction : transactionsArray) {
+                try {
+                    Date transactionDate = CORRECT_DATE_FORMAT.parse(transaction.getInvoiceDate());
+                    calendar.setTime(transactionDate);
+                    var month = calendar.get(Calendar.MONTH);
+                    var currentSale = Double.parseDouble(transaction.getQuantity()) * Double.parseDouble(transaction.getUnitPrice());
+
+                    monthValues[month] += currentSale;
+                    counter[month]++;
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+
+            for (int i = 0; i < monthValues.length; i++) {
+                monthValues[i] /= counter[i];
+            }
+            return monthValues;
+        }
+    /*    if (groupByCountry) {
+            HashMap<String, HashMap<Integer, Double>> testHash = new HashMap<>();
+            for (int i = 0; i < transactionsArray.size(); i++) {
+                try {
+                    Date transactionDate = CORRECT_DATE_FORMAT.parse(transactionsArray.get(i).getInvoiceDate());
+                    calendar.setTime(transactionDate);
+                    var month = calendar.get(Calendar.MONTH);
+                    var currentSale = Double.parseDouble(transactionsArray.get(i).getQuantity()) * Double.parseDouble(transactionsArray.get(i).getUnitPrice());
+                    var country = transactionsArray.get(i).getCountry();
+
+                    try {
+                        HashMap<Integer, Double> saved = testHash.get(country);
+                        saved.put(month, saved.get(month) + currentSale);
+                        testHash.put(country, saved);
+                    } catch (NullPointerException e) {
+                        HashMap<Integer, Double> hola = new HashMap<>();
+                        hola.put(month, currentSale);
+                        testHash.put(country, hola);
+                        i--;
+                        //System.out.println("Country = " + country);
+                    }
+
+
+                } catch (Exception ex) {
+                    ex.printStackTrace();
+                }
+            }
+
+            for (var entry : testHash.entrySet()) {
+                System.out.println(entry.getKey() + " = " + entry.getValue());
+            }
+        }*/
+/*        for (Transaction transaction : transactionsArray) {
             try {
-                Date transactionDate = CORRECT_DATE_FORMAT.parse(transactionsArray.get(i).getInvoiceDate());
+                Date transactionDate = CORRECT_DATE_FORMAT.parse(transaction.getInvoiceDate());
                 calendar.setTime(transactionDate);
                 var month = calendar.get(Calendar.MONTH);
-                var year = calendar.get(Calendar.YEAR);
-                var currentSale = Double.parseDouble(transactionsArray.get(i).getQuantity()) * Double.parseDouble(transactionsArray.get(i).getUnitPrice());
-
-                if (currentYear == year) {
-                    actualValues[month] += currentSale;
-                } else {
-                    i--;
-                    currentYear = year;
-                    values.add(actualValues);
-                    actualValues = new double[12];
-                }
+                var currentSale = Double.parseDouble(transaction.getQuantity()) * Double.parseDouble(transaction.getUnitPrice());
+                values.get(month).add(currentSale);
             } catch (Exception e) {
                 e.printStackTrace();
             }
         }
-        values.add(actualValues);
-        return values;
+
+        for (ArrayList<Double> month : values) {
+            double sum = 0.0;
+            int amount = month.size();
+            for (double value : month) {
+                sum += value;
+            }
+            month.clear();
+            month.add(sum / amount);
+        }*/
     }
 
     /**
