@@ -1,7 +1,5 @@
 package co.edu.unbosque.model;
 
-import co.edu.unbosque.view.Messages;
-
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
@@ -12,11 +10,12 @@ import java.util.*;
 public class ModelManager {
 
     private final ArrayList<Transaction> transactionsArray = new ArrayList<>();
-    private final SimpleDateFormat wrongDateFormat = new SimpleDateFormat("MM/dd/yyyy");
-    private final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("dd/MM/yyyy");
+    private final SimpleDateFormat WRONG_DATE_FORMAT = new SimpleDateFormat("MM/dd/yyyy");
+    private final SimpleDateFormat CORRECT_DATE_FORMAT = new SimpleDateFormat("dd/MM/yyyy");
 
     /**
      * Constructor de la clase
+     *
      * @param file
      */
 
@@ -26,6 +25,7 @@ public class ModelManager {
 
     /**
      * Sube el archivo csv y lo guarda en un array
+     *
      * @param file archivo csv
      */
 
@@ -87,8 +87,8 @@ public class ModelManager {
                     country = separator[7];
 
                     try {
-                        Date date = wrongDateFormat.parse(invoiceDate);
-                        invoiceDate = DATE_FORMAT.format(date);
+                        Date date = WRONG_DATE_FORMAT.parse(invoiceDate);
+                        invoiceDate = CORRECT_DATE_FORMAT.format(date);
                     } catch (Exception ex) {
                         ex.printStackTrace();
                     }
@@ -107,6 +107,7 @@ public class ModelManager {
 
     /**
      * Calcula el total de las compras de la tienda
+     *
      * @return el total de compras de la tienda
      */
 
@@ -121,6 +122,7 @@ public class ModelManager {
 
     /**
      * Devuelve la facturade compre de compra.
+     *
      * @param invoiceNo el numero de la factura a buscar
      * @return la factura solicitada
      */
@@ -139,6 +141,7 @@ public class ModelManager {
 
     /**
      * Cuenta la cantidad de unidades vendidas para un stock pedido
+     *
      * @param stockCode el stock code solicitado
      * @return el stock code encontrado
      */
@@ -157,10 +160,11 @@ public class ModelManager {
 
     /**
      * Retorna la lista de descripciones que coinciden parcialmente con el criterio de búsqueda incluyendo la cantidad de unidades vendidas con la opción de ordenar por el producto más vendido y filtrar por rango de meses
-     * @param search string para encontgrar el texto
-     * @param order is es verdaddero, orden ale texto
+     *
+     * @param search    string para encontgrar el texto
+     * @param order     is es verdaddero, orden ale texto
      * @param initMonth el principio del mes
-     * @param endMonth el fin del mes
+     * @param endMonth  el fin del mes
      * @return transacciones encontradas con esa descrpcion.
      */
 
@@ -175,7 +179,7 @@ public class ModelManager {
         try {
             for (Transaction transaction : transactionsArray) {
                 var currentDescription = transaction.getDescription();
-                var invoiceDate = DATE_FORMAT.parse(transaction.getInvoiceDate());
+                var invoiceDate = CORRECT_DATE_FORMAT.parse(transaction.getInvoiceDate());
                 calendar.setTime(invoiceDate);
                 var month = calendar.get(Calendar.MONTH);
                 if (currentDescription.contains(search)) {
@@ -189,21 +193,7 @@ public class ModelManager {
         }
 
         if (order) {
-
-            for (var transaction : foundTransactions) {
-                System.out.println(transaction.getQuantity());
-            }
-
-            System.out.println("========================");
-            System.out.println("========================");
-            System.out.println("========================");
-            System.out.println("========================");
-            System.out.println("========================");
-            System.out.println("========================");
             QuickSort.quicksort(foundTransactions, 0, (foundTransactions.size() - 1));
-            for (var transaction : foundTransactions) {
-                System.out.println(transaction.getQuantity());
-            }
         }
 
         return foundTransactions;
@@ -211,6 +201,7 @@ public class ModelManager {
 
     /**
      * Retorna el promedio de ventas mensuales con la opción de agrupar por país
+     *
      * @param groupByCountry si es verdaddero, organiza todos los promedios por paises.
      * @return el promedio de todos los paises
      */
@@ -223,7 +214,7 @@ public class ModelManager {
         double[] actualValues = new double[12];
         for (int i = 0; i < transactionsArray.size(); i++) {
             try {
-                Date transactionDate = DATE_FORMAT.parse(transactionsArray.get(i).getInvoiceDate());
+                Date transactionDate = CORRECT_DATE_FORMAT.parse(transactionsArray.get(i).getInvoiceDate());
                 calendar.setTime(transactionDate);
                 var month = calendar.get(Calendar.MONTH);
                 var year = calendar.get(Calendar.YEAR);
@@ -247,6 +238,7 @@ public class ModelManager {
 
     /**
      * Transaction get method
+     *
      * @return transaction object.
      */
     public ArrayList<Transaction> getTransactionsArray() {
