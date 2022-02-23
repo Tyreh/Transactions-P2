@@ -12,10 +12,12 @@ import java.awt.event.ItemEvent;
 import java.io.File;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 
 /**
  * Clase encargada de ejecutar las diversas funciones del programa.
+ *
  * @author Oscar Moreno
  * @author Nelson Fandiño
  * @author Tomas Espitia
@@ -126,8 +128,12 @@ public class Controller implements ActionListener {
                 break;
             case "AVERAGE_SEARCH":
                 AveragePanel averagePanel = mainFrame.getAveragePanel();
+                var averageTableModel = averagePanel.getDefaultTableModel();
+                var averagesFound = modelManager.avgMonthlySales((checkBoxState == 1));
                 if (checkBoxState == 1) {
-                } else if (checkBoxState == 2) {
+                    addTransactionsToTable(averageTableModel, (HashMap<String, double[]>) averagesFound, "");
+                } else {
+                    addTransactionsToTable(averageTableModel, (double[]) averagesFound, "");
 
                 }
         }
@@ -137,7 +143,15 @@ public class Controller implements ActionListener {
         tableModel.setRowCount(0);
         if (foundTransactions.size() > 0) {
             for (Transaction transaction : foundTransactions) {
-                tableModel.addRow(new String[]{transaction.getInvoiceNumber(), transaction.getStockCode(), transaction.getDescription(), transaction.getQuantity(), transaction.getInvoiceDate(), transaction.getUnitPrice(), transaction.getCustomerId(), transaction.getCountry()});
+                var invoiceNumber = transaction.getInvoiceNumber();
+                var stockCode = transaction.getStockCode();
+                var description = transaction.getDescription();
+                var quantity = transaction.getQuantity();
+                var invoiceDate = transaction.getInvoiceDate();
+                var unitPrice = transaction.getUnitPrice();
+                var customerId = transaction.getCustomerId();
+                var country = transaction.getCountry();
+                tableModel.addRow(new String[]{invoiceNumber, stockCode, description, quantity, invoiceDate, unitPrice, customerId, country});
             }
         } else {
             Messages.showError(notFoundMessage);
@@ -149,10 +163,64 @@ public class Controller implements ActionListener {
         if (foundTransactions.size() > 0) {
             var counter = 0;
             for (Transaction transaction : foundTransactions) {
-                tableModel.addRow(new String[]{transaction.getInvoiceNumber(), transaction.getStockCode(), transaction.getDescription(), transaction.getQuantity(), transaction.getInvoiceDate(), transaction.getUnitPrice(), transaction.getCustomerId(), transaction.getCountry()});
+                var invoiceNumber = transaction.getInvoiceNumber();
+                var stockCode = transaction.getStockCode();
+                var description = transaction.getDescription();
+                var quantity = transaction.getQuantity();
+                var invoiceDate = transaction.getInvoiceDate();
+                var unitPrice = transaction.getUnitPrice();
+                var customerId = transaction.getCustomerId();
+                var country = transaction.getCountry();
+                tableModel.addRow(new String[]{invoiceNumber, stockCode, description, quantity, invoiceDate, unitPrice, customerId, country});
                 counter++;
             }
             footerLabel.setText(counter + " units of ");
+        } else {
+            Messages.showError(notFoundMessage);
+        }
+    }
+
+    public void addTransactionsToTable(DefaultTableModel tableModel, double[] averages, String notFoundMessage) {
+        tableModel.setRowCount(0);
+        if (averages.length > 0) {
+            var january = averages[0] == 0.0 ? "0,0" : FORMATTER.format(averages[0]);
+            var february = averages[1] == 0.0 ? "0,0" : FORMATTER.format(averages[1]);
+            var march = averages[2] == 0.0 ? "0,0" : FORMATTER.format(averages[2]);
+            var april = averages[3] == 0.0 ? "0,0" : FORMATTER.format(averages[3]);
+            var may = averages[4] == 0.0 ? "0,0" : FORMATTER.format(averages[4]);
+            var june = averages[5] == 0.0 ? "0,0" : FORMATTER.format(averages[5]);
+            var july = averages[6] == 0.0 ? "0,0" : FORMATTER.format(averages[6]);
+            var august = averages[7] == 0.0 ? "0,0" : FORMATTER.format(averages[7]);
+            var september = averages[8] == 0.0 ? "0,0" : FORMATTER.format(averages[8]);
+            var october = averages[9] == 0.0 ? "0,0" : FORMATTER.format(averages[9]);
+            var november = averages[10] == 0.0 ? "0,0" : FORMATTER.format(averages[10]);
+            var december = averages[11] == 0.0 ? "0,0" : FORMATTER.format(averages[11]);
+            tableModel.addRow(new String[]{"", january, february, march, april, may, june, july, august, september, october, november, december});
+        } else {
+            Messages.showError(notFoundMessage);
+        }
+    }
+
+    public void addTransactionsToTable(DefaultTableModel tableModel, HashMap<String,double[]> averages, String notFoundMessage) {
+        tableModel.setRowCount(0);
+        if (averages.size() > 0) {
+            for (var entry : averages.entrySet()) {
+                var country = entry.getKey();
+                var arrayValues = Arrays.stream(entry.getValue()).toArray();
+                var january = arrayValues[0] == 0.0 ? "0,0" : FORMATTER.format(arrayValues[0]);
+                var february = arrayValues[1] == 0.0 ? "0,0" : FORMATTER.format(arrayValues[1]);
+                var march = arrayValues[2] == 0.0 ? "0,0" : FORMATTER.format(arrayValues[2]);
+                var april = arrayValues[3] == 0.0 ? "0,0" : FORMATTER.format(arrayValues[3]);
+                var may = arrayValues[4] == 0.0 ? "0,0" : FORMATTER.format(arrayValues[4]);
+                var june = arrayValues[5] == 0.0 ? "0,0" : FORMATTER.format(arrayValues[5]);
+                var july = arrayValues[6] == 0.0 ? "0,0" : FORMATTER.format(arrayValues[6]);
+                var august = arrayValues[7] == 0.0 ? "0,0" : FORMATTER.format(arrayValues[7]);
+                var september = arrayValues[8] == 0.0 ? "0,0" : FORMATTER.format(arrayValues[8]);
+                var october = arrayValues[9] == 0.0 ? "0,0" : FORMATTER.format(arrayValues[9]);
+                var november = arrayValues[10] == 0.0 ? "0,0" : FORMATTER.format(arrayValues[10]);
+                var december = arrayValues[11] == 0.0 ? "0,0" : FORMATTER.format(arrayValues[11]);
+                tableModel.addRow(new String[]{country, january, february, march, april, may, june, july, august, september, october, november, december});
+            }
         } else {
             Messages.showError(notFoundMessage);
         }
