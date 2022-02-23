@@ -3,11 +3,12 @@ package co.edu.unbosque.model;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
-import java.io.IOException;
 import java.text.SimpleDateFormat;
-import java.time.Month;
 import java.util.*;
 
+/**
+ * The type Model manager.
+ */
 public class ModelManager {
 
     private final ArrayList<Transaction> transactionsArray = new ArrayList<>();
@@ -15,21 +16,19 @@ public class ModelManager {
     private final SimpleDateFormat CORRECT_DATE_FORMAT = new SimpleDateFormat("dd/MM/yyyy");
 
     /**
-     * Constructor de la clase
+     * Instantiates a new Model manager.
      *
-     * @param file
+     * @param file the file
      */
-
     public ModelManager(File file) {
         uploadData(file);
     }
 
     /**
-     * Sube el archivo csv y lo guarda en un array
+     * Upload data from a given csv file.
      *
-     * @param file archivo csv
+     * @param file the file
      */
-
     public void uploadData(File file) {
         long startTime = System.currentTimeMillis();
 
@@ -92,11 +91,10 @@ public class ModelManager {
     }
 
     /**
-     * Calcula el total de las compras de la tienda
+     * Sum total sales of csv file.
      *
-     * @return el total de compras de la tienda
+     * @return sum of all csv file sales.
      */
-
     public double sumTotalSales() {
         var total = 0.0;
         for (Transaction transaction : transactionsArray) {
@@ -107,12 +105,11 @@ public class ModelManager {
     }
 
     /**
-     * Devuelve la facturade compre de compra.
+     * Search all sales with the given invoice number.
      *
-     * @param invoiceNo el numero de la factura a buscar
-     * @return la factura solicitada
+     * @param invoiceNo the invoice number to search
+     * @return the array list with all coincidences
      */
-
     public ArrayList<Transaction> findByInvoiceNo(String invoiceNo) {
         ArrayList<Transaction> foundInvoices = new ArrayList<>();
 
@@ -126,12 +123,11 @@ public class ModelManager {
     }
 
     /**
-     * Cuenta la cantidad de unidades vendidas para un stock pedido
+     * Search all sales with the given stock code.
      *
-     * @param stockCode el stock code solicitado
-     * @return el stock code encontrado
+     * @param stockCode the stock code to search
+     * @return the array list with all coincidences
      */
-
     public ArrayList<Transaction> countByStockCode(String stockCode) {
         ArrayList<Transaction> foundStockCodes = new ArrayList<>();
 
@@ -145,15 +141,14 @@ public class ModelManager {
     }
 
     /**
-     * Retorna la lista de descripciones que coinciden parcialmente con el criterio de búsqueda incluyendo la cantidad de unidades vendidas con la opción de ordenar por el producto más vendido y filtrar por rango de meses
+     * Find partially by description array list.
      *
-     * @param search    string para encontgrar el texto
-     * @param order     is es verdaddero, orden ale texto
-     * @param initMonth el principio del mes
-     * @param endMonth  el fin del mes
-     * @return transacciones encontradas con esa descrpcion.
+     * @param search    the word to search
+     * @param order     sort search by quantity sold
+     * @param initMonth the init month range
+     * @param endMonth  the end month range
+     * @return the array list with all coincidences
      */
-
     public ArrayList<Transaction> findPartiallyByDescription(String search, boolean order, int initMonth, int endMonth) {
         if ((endMonth < initMonth) || (endMonth > 12) || (initMonth < 1)) {
             return null;
@@ -168,6 +163,7 @@ public class ModelManager {
                 var invoiceDate = CORRECT_DATE_FORMAT.parse(transaction.getInvoiceDate());
                 calendar.setTime(invoiceDate);
                 var month = calendar.get(Calendar.MONTH);
+                search = search.toUpperCase();
                 if (currentDescription.contains(search)) {
                     if (month >= (initMonth - 1) && month <= (endMonth - 1)) {
                         foundTransactions.add(transaction);
@@ -186,12 +182,11 @@ public class ModelManager {
     }
 
     /**
-     * Retorna el promedio de ventas mensuales con la opción de agrupar por país
+     * Avg monthly sales object.
      *
-     * @param groupByCountry si es verdaddero, organiza todos los promedios por paises.
-     * @return el promedio de todos los paises
+     * @param groupByCountry the group by country
+     * @return the object
      */
-
     public Object avgMonthlySales(boolean groupByCountry) {
         Calendar calendar = new GregorianCalendar();
 
@@ -208,17 +203,17 @@ public class ModelManager {
                     var currentSale = Double.parseDouble(transactionsArray.get(i).getQuantity()) * Double.parseDouble(transactionsArray.get(i).getUnitPrice());
                     var country = transactionsArray.get(i).getCountry();
 
-                        monthValues[month] += currentSale;
-                        var countryMonths = countryValues.get(country);
+                    monthValues[month] += currentSale;
+                    var countryMonths = countryValues.get(country);
 
-                        if (countryMonths == null) {
-                            countryValues.put(country, new double[12]);
-                            i--;
-                        } else {
-                            countryMonths[month] += currentSale;
-                            countryValues.put(country, countryMonths);
-                            counter[month]++;
-                        }
+                    if (countryMonths == null) {
+                        countryValues.put(country, new double[12]);
+                        i--;
+                    } else {
+                        countryMonths[month] += currentSale;
+                        countryValues.put(country, countryMonths);
+                        counter[month]++;
+                    }
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -249,65 +244,12 @@ public class ModelManager {
             }
             return monthValues;
         }
-    /*    if (groupByCountry) {
-            HashMap<String, HashMap<Integer, Double>> testHash = new HashMap<>();
-            for (int i = 0; i < transactionsArray.size(); i++) {
-                try {
-                    Date transactionDate = CORRECT_DATE_FORMAT.parse(transactionsArray.get(i).getInvoiceDate());
-                    calendar.setTime(transactionDate);
-                    var month = calendar.get(Calendar.MONTH);
-                    var currentSale = Double.parseDouble(transactionsArray.get(i).getQuantity()) * Double.parseDouble(transactionsArray.get(i).getUnitPrice());
-                    var country = transactionsArray.get(i).getCountry();
-
-                    try {
-                        HashMap<Integer, Double> saved = testHash.get(country);
-                        saved.put(month, saved.get(month) + currentSale);
-                        testHash.put(country, saved);
-                    } catch (NullPointerException e) {
-                        HashMap<Integer, Double> hola = new HashMap<>();
-                        hola.put(month, currentSale);
-                        testHash.put(country, hola);
-                        i--;
-                        //System.out.println("Country = " + country);
-                    }
-
-
-                } catch (Exception ex) {
-                    ex.printStackTrace();
-                }
-            }
-
-            for (var entry : testHash.entrySet()) {
-                System.out.println(entry.getKey() + " = " + entry.getValue());
-            }
-        }*/
-/*        for (Transaction transaction : transactionsArray) {
-            try {
-                Date transactionDate = CORRECT_DATE_FORMAT.parse(transaction.getInvoiceDate());
-                calendar.setTime(transactionDate);
-                var month = calendar.get(Calendar.MONTH);
-                var currentSale = Double.parseDouble(transaction.getQuantity()) * Double.parseDouble(transaction.getUnitPrice());
-                values.get(month).add(currentSale);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
-
-        for (ArrayList<Double> month : values) {
-            double sum = 0.0;
-            int amount = month.size();
-            for (double value : month) {
-                sum += value;
-            }
-            month.clear();
-            month.add(sum / amount);
-        }*/
     }
 
     /**
-     * Transaction get method
+     * Gets transactions array.
      *
-     * @return transaction object.
+     * @return the transactions array
      */
     public ArrayList<Transaction> getTransactionsArray() {
         return transactionsArray;

@@ -2,18 +2,24 @@ package co.edu.unbosque.model;
 
 import java.util.List;
 
+/**
+ * The type Quick sort.
+ */
 public class QuickSort {
 
+    /**
+     * Instantiates a new Quick sort.
+     */
     public QuickSort() {
 
     }
 
     /**
-     * QuickSort Algorithm taken but adapted from: http://puntocomnoesunlenguaje.blogspot.com/2012/12/java-quicksort.html
+     * Quicksort. QuickSort Algorithm taken and adapted from: http://puntocomnoesunlenguaje.blogspot.com/2012/12/java-quicksort.html
      *
-     * @param transactions
-     * @param left
-     * @param right
+     * @param transactions the transactions
+     * @param left         the left
+     * @param right        the right
      */
     public static void quicksort(List<Transaction> transactions, int left, int right) {
         Transaction pivot = transactions.get(left);

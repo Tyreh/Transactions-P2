@@ -4,15 +4,39 @@ import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 
+/**
+ * The type Table manager.
+ */
 public class TableManager extends JPanel {
 
+    /**
+     * The Table.
+     */
     protected JTable table;
+    /**
+     * The Scroll table.
+     */
     protected JScrollPane scrollTable;
+    /**
+     * The Default table model.
+     */
     protected DefaultTableModel defaultTableModel;
 
+    /**
+     * The Text fields array.
+     */
     protected JTextField[] textFieldsArray;
+    /**
+     * The Check boxes array.
+     */
     protected JCheckBox[] checkBoxesArray;
+    /**
+     * The Button.
+     */
     protected JButton button;
+    /**
+     * The Footer label.
+     */
     protected JLabel footerLabel;
 
     public TableManager(boolean footerPanel, String buttonText, String commandButton, String[] columns, String[] fieldLabelArray) {
@@ -122,58 +146,128 @@ public class TableManager extends JPanel {
         return panel;
     }
 
+    /**
+     * Gets table.
+     *
+     * @return the table
+     */
     public JTable getTable() {
         return table;
     }
 
+    /**
+     * Sets table.
+     *
+     * @param table the table
+     */
     public void setTable(JTable table) {
         this.table = table;
     }
 
+    /**
+     * Gets default table model.
+     *
+     * @return the default table model
+     */
     public DefaultTableModel getDefaultTableModel() {
         return defaultTableModel;
     }
 
+    /**
+     * Sets default table model.
+     *
+     * @param defaultTableModel the default table model
+     */
     public void setDefaultTableModel(DefaultTableModel defaultTableModel) {
         this.defaultTableModel = defaultTableModel;
     }
 
+    /**
+     * Gets scroll table.
+     *
+     * @return the scroll table
+     */
     public JScrollPane getScrollTable() {
         return scrollTable;
     }
 
+    /**
+     * Sets scroll table.
+     *
+     * @param scrollTable the scroll table
+     */
     public void setScrollTable(JScrollPane scrollTable) {
         this.scrollTable = scrollTable;
     }
 
+    /**
+     * Gets button.
+     *
+     * @return the button
+     */
     public JButton getButton() {
         return button;
     }
 
+    /**
+     * Sets button.
+     *
+     * @param button the button
+     */
     public void setButton(JButton button) {
         this.button = button;
     }
 
+    /**
+     * Gets footer label.
+     *
+     * @return the footer label
+     */
     public JLabel getFooterLabel() {
         return footerLabel;
     }
 
+    /**
+     * Sets footer label.
+     *
+     * @param footerLabel the footer label
+     */
     public void setFooterLabel(JLabel footerLabel) {
         this.footerLabel = footerLabel;
     }
 
+    /**
+     * Get text fields array j text field [ ].
+     *
+     * @return the j text field [ ]
+     */
     public JTextField[] getTextFieldsArray() {
         return textFieldsArray;
     }
 
+    /**
+     * Sets text fields array.
+     *
+     * @param textFieldsArray the text fields array
+     */
     public void setTextFieldsArray(JTextField[] textFieldsArray) {
         this.textFieldsArray = textFieldsArray;
     }
 
+    /**
+     * Get check boxes array j check box [ ].
+     *
+     * @return the j check box [ ]
+     */
     public JCheckBox[] getCheckBoxesArray() {
         return checkBoxesArray;
     }
 
+    /**
+     * Sets check boxes array.
+     *
+     * @param checkBoxesArray the check boxes array
+     */
     public void setCheckBoxesArray(JCheckBox[] checkBoxesArray) {
         this.checkBoxesArray = checkBoxesArray;
     }

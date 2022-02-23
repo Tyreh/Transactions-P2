@@ -1,28 +1,38 @@
 package co.edu.unbosque.model;
 
+/**
+ * The type Transaction.
+ */
 public class Transaction {
 
     private String invoiceNumber;
+
     private String stockCode;
+
     private String description;
+
     private String quantity;
+
     private String invoiceDate;
+
     private String unitPrice;
+
     private String customerId;
+
     private String country;
 
     /**
-     *  Constructor of the class.
-     * @param invoiceNumber number of a current invoice
-     * @param stockCode stock code for an invoice
-     * @param description partial / complete description of a invoice
-     * @param quantity quantity of a current invoice
-     * @param invoiceDate current date of a invoice
-     * @param unitPrice unit price of a transaction
-     * @param customerId customer to identify a client
-     * @param country boolean to show by country
+     * Instantiates a new Transaction.
+     *
+     * @param invoiceNumber the invoice number
+     * @param stockCode     the stock code
+     * @param description   the description
+     * @param quantity      the quantity
+     * @param invoiceDate   the invoice date
+     * @param unitPrice     the unit price
+     * @param customerId    the customer id
+     * @param country       the country
      */
-
     public Transaction(String invoiceNumber, String stockCode, String description, String quantity, String invoiceDate, String unitPrice, String customerId, String country) {
         this.invoiceNumber = invoiceNumber;
         this.stockCode = stockCode;
@@ -35,145 +45,146 @@ public class Transaction {
     }
 
     /**
-     * get invoicenumber method
-     * @return invoice number
+     * Gets invoice number.
+     *
+     * @return the invoice number
      */
-
     public String getInvoiceNumber() {
         return invoiceNumber;
     }
 
     /**
-     * set invoicenumber method
-     * @param invoiceNumber invoicenumber to set
+     * Sets invoice number.
+     *
+     * @param invoiceNumber the invoice number
      */
-
     public void setInvoiceNumber(String invoiceNumber) {
         this.invoiceNumber = invoiceNumber;
     }
 
     /**
-     * get stockcode method
-     * @return stockcode
+     * Gets stock code.
+     *
+     * @return the stock code
      */
-
     public String getStockCode() {
         return stockCode;
     }
 
     /**
-     * set stockcode method
-     * @param stockCode stockcode to set
+     * Sets stock code.
+     *
+     * @param stockCode the stock code
      */
-
     public void setStockCode(String stockCode) {
         this.stockCode = stockCode;
     }
 
     /**
-     * get Description method
-     * @return description
+     * Gets description.
+     *
+     * @return the description
      */
-
     public String getDescription() {
         return description;
     }
 
     /**
-     * set description method
-     * @param description description to set
+     * Sets description.
+     *
+     * @param description the description
      */
-
     public void setDescription(String description) {
         this.description = description;
     }
 
-    /**
-     * get quantity method
-     * @return quantity
-     */
 
+    /**
+     * Gets quantity.
+     *
+     * @return the quantity
+     */
     public String getQuantity() {
         return quantity;
     }
 
     /**
-     * set quantity method
-     * @param quantity quantity to set
+     * Sets quantity.
+     *
+     * @param quantity the quantity
      */
-
     public void setQuantity(String quantity) {
         this.quantity = quantity;
     }
 
     /**
-     * get invoicedate method
-     * @return invoice date
+     * Gets invoice date.
+     *
+     * @return the invoice date
      */
-
     public String getInvoiceDate() {
         return invoiceDate;
     }
 
     /**
-     * set invoice date method
-      * @param invoiceDate invoicedate string to set
+     * Sets invoice date.
+     *
+     * @param invoiceDate the invoice date
      */
     public void setInvoiceDate(String invoiceDate) {
         this.invoiceDate = invoiceDate;
     }
 
     /**
-     * get unit price method
-     * @return unit price
+     * Gets unit price.
+     *
+     * @return the unit price
      */
-
     public String getUnitPrice() {
         return unitPrice;
     }
 
     /**
-     * set unit price method
-     * @param unitPrice unit price to set
+     * Sets unit price.
+     *
+     * @param unitPrice the unit price
      */
-
     public void setUnitPrice(String unitPrice) {
         this.unitPrice = unitPrice;
     }
 
     /**
-     * get customerid method
-     * @return customerid
+     * Gets customer id.
+     *
+     * @return the customer id
      */
-
-
     public String getCustomerId() {
         return customerId;
     }
 
     /**
-     * set customerid method
-     * @param customerId customerid to set
+     * Sets customer id.
+     *
+     * @param customerId the customer id
      */
-
     public void setCustomerId(String customerId) {
         this.customerId = customerId;
     }
 
     /**
-     * get country method
-     * @return country
+     * Gets country.
+     *
+     * @return the country
      */
-
     public String getCountry() {
         return country;
     }
 
     /**
-     * set country method
-     * @param country country to set
+     * Sets country.
+     *
+     * @param country the country
      */
-
     public void setCountry(String country) {
         this.country = country;
     }
