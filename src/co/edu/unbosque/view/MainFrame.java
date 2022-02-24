@@ -39,7 +39,7 @@ public class MainFrame extends JFrame {
         getContentPane().setLayout(new BorderLayout());
         init();
         setLocationRelativeTo(null);
-        setResizable(false);
+        setResizable(true);
         setVisible(true);
     }
 
