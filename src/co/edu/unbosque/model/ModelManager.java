@@ -248,9 +248,6 @@ public class ModelManager {
                 }
             }
 
-            for (var entry : countryValues.entrySet()) {
-                System.out.println(entry.getKey() + " ----> " + Arrays.toString(entry.getValue()));
-            }
             return countryValues;
         } else {
             for (Transaction transaction : transactionsArray) {
