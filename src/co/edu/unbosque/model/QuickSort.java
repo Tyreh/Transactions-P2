@@ -5,11 +5,13 @@ import java.util.List;
 /**
  * The type Quick sort.
  */
+
 public class QuickSort {
 
     /**
      * Instantiates a new Quick sort.
      */
+
     public QuickSort() {
 
     }

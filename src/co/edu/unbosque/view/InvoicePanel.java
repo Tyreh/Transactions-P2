@@ -1,12 +1,12 @@
 package co.edu.unbosque.view;
 
 /**
- * Clase extendida de TableManager que permite cambiar el header y funciones de la tabla principal
+ * The type Invoice panel.
  */
 public class InvoicePanel extends TableManager {
 
     /**
-     * Metodo que permite cambiar los valores del header por medio de parametros adecuados a panel de facturacion
+     * Instantiates a new Invoice panel.
      */
     public InvoicePanel() {
         super(false, "Search", "INVOICE_SEARCH", new String[]{"INVOICE NUMBER", "STOCK CODE", "DESCRIPTION", "QUANTITY", "INVOICE DATE", "UNIT PRICE", "CUSTOMER ID", "COUNTRY"}, new String[]{"Type a invoice number to find:"});

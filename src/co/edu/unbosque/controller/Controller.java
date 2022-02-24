@@ -16,7 +16,7 @@ import java.util.Arrays;
 import java.util.HashMap;
 
 /**
- * Clase encargada de ejecutar las diversas funciones del programa.
+ * Class in charge of executing the various functions of the program.
  *
  * @author Oscar Moreno
  * @author Nelson Fandiño
@@ -26,23 +26,29 @@ import java.util.HashMap;
 public class Controller implements ActionListener {
 
     /**
-     * Permite acceder a la clase, sus metodos y objetos.
-     * La clase permite cargar el archivo csv y realizar busquedas. Se inicializa especificando la ruta del archivo.
+     * Allows access to the class, its methods and objects.
+     * The class allows to load the csv file and perform searches. It is initialized by specifying the file path.
      */
     private final ModelManager modelManager = new ModelManager(new File("data/data.csv"));
 
     /**
-     * Permite acceder a la interfaz grafica del proyecto y sus paneles.
+     * Allows access to the graphical interface of the project and its panels.
      */
     private final MainFrame mainFrame = new MainFrame();
     private final DecimalFormat FORMATTER = new DecimalFormat("#,###.00");
     private int checkBoxState;
 
+    /**
+     * Instantiates a new Controller.
+     */
     public Controller() {
         registerActionListeners();
         registerItemListeners();
     }
 
+    /**
+     * Register action listeners.
+     */
     public void registerActionListeners() {
         var mainPanelButtons = mainFrame.getMainPanel().getButtons();
         for (var button : mainPanelButtons) {
@@ -55,6 +61,9 @@ public class Controller implements ActionListener {
         mainFrame.getAveragePanel().getButton().addActionListener(this);
     }
 
+    /**
+     * Register item listeners.
+     */
     public void registerItemListeners() {
         var averageCheckBoxes = mainFrame.getAveragePanel().getCheckBoxesArray();
         var descriptionCheckBoxes = mainFrame.getDescriptionPanel().getCheckBoxesArray();
@@ -68,6 +77,11 @@ public class Controller implements ActionListener {
         }
     }
 
+    /**
+     * Item state changed.
+     *
+     * @param e the e
+     */
     public void itemStateChanged(ItemEvent e) {
         checkBoxState = e.getStateChange();
         System.out.println(checkBoxState);
@@ -139,6 +153,13 @@ public class Controller implements ActionListener {
         }
     }
 
+    /**
+     * Add transactions to table.
+     *
+     * @param tableModel        the table model
+     * @param foundTransactions the found transactions
+     * @param notFoundMessage   the not found message
+     */
     public void addTransactionsToTable(DefaultTableModel tableModel, ArrayList<Transaction> foundTransactions, String notFoundMessage) {
         tableModel.setRowCount(0);
         if (foundTransactions.size() > 0) {
@@ -158,6 +179,14 @@ public class Controller implements ActionListener {
         }
     }
 
+    /**
+     * Add transactions to table.
+     *
+     * @param tableModel        the table model
+     * @param foundTransactions the found transactions
+     * @param footerLabel       the footer label
+     * @param notFoundMessage   the not found message
+     */
     public void addTransactionsToTable(DefaultTableModel tableModel, ArrayList<Transaction> foundTransactions, JLabel footerLabel, String notFoundMessage) {
         tableModel.setRowCount(0);
         if (foundTransactions.size() > 0) {
@@ -180,6 +209,13 @@ public class Controller implements ActionListener {
         }
     }
 
+    /**
+     * Add transactions to table.
+     *
+     * @param tableModel      the table model
+     * @param averages        the averages
+     * @param notFoundMessage the not found message
+     */
     public void addTransactionsToTable(DefaultTableModel tableModel, double[] averages, String notFoundMessage) {
         tableModel.setRowCount(0);
         if (averages.length > 0) {
@@ -201,6 +237,13 @@ public class Controller implements ActionListener {
         }
     }
 
+    /**
+     * Add transactions to table.
+     *
+     * @param tableModel      the table model
+     * @param averages        the averages
+     * @param notFoundMessage the not found message
+     */
     public void addTransactionsToTable(DefaultTableModel tableModel, HashMap<String,double[]> averages, String notFoundMessage) {
         tableModel.setRowCount(0);
         if (averages.size() > 0) {
@@ -226,6 +269,11 @@ public class Controller implements ActionListener {
         }
     }
 
+    /**
+     * Panel visibility.
+     *
+     * @param command the command
+     */
     public void panelVisibility(String command) {
         HashMap<String, JPanel> panels = new HashMap<>();
         InvoicePanel invoicePanel = mainFrame.getInvoicePanel();

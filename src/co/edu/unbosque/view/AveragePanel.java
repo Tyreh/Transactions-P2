@@ -1,12 +1,14 @@
 package co.edu.unbosque.view;
 
+
 /**
- * Clase extendida de TableManager que permite cambiar el header y funciones de la tabla principal
+ * The type Average panel.
  */
 public class AveragePanel extends TableManager {
 
+
     /**
-     * Metodo que permite cambiar los valores del header por medio de parametros adecuados a panel de promedio
+     * Instantiates a new Average panel.
      */
     public AveragePanel() {
         super(false, "Search", (Object) "AVERAGE_SEARCH",
