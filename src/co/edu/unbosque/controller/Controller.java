@@ -35,7 +35,13 @@ public class Controller implements ActionListener {
      * Allows access to the graphical interface of the project and its panels.
      */
     private final MainFrame mainFrame = new MainFrame();
+    /**
+     * Allows to format a primitive date with commas and dots.
+     */
     private final DecimalFormat FORMATTER = new DecimalFormat("#,###.00");
+    /**
+     * Represent de current state of a checkBox. 1 represent checkbox is marked, 0 is not marked.
+     */
     private int checkBoxState;
 
     /**
@@ -78,7 +84,7 @@ public class Controller implements ActionListener {
     }
 
     /**
-     * Checks if an state is changing.
+     * Checks if a state is changing.
      * @param e ItemEvent interator
      */
     public void itemStateChanged(ItemEvent e) {

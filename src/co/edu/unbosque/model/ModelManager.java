@@ -23,10 +23,13 @@ public class ModelManager {
     private final ArrayList<Transaction> transactionsArray = new ArrayList<>();
 
     /**
-     * Allows us to access date data
+     * Variable to format a wrong date from csv file.
      */
-
     private final SimpleDateFormat WRONG_DATE_FORMAT = new SimpleDateFormat("MM/dd/yyyy");
+
+    /**
+     * Variable to format a correct data from csv file.
+     */
     private final SimpleDateFormat CORRECT_DATE_FORMAT = new SimpleDateFormat("dd/MM/yyyy");
 
     /**

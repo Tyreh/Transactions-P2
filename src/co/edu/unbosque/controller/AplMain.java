@@ -1,15 +1,12 @@
 package co.edu.unbosque.controller;
 
 /**
+ * The type Apl main.
+ *
  * @author Oscar Moreno
  * @author Nelson Fandiño
  * @author Tomas Espitia
  * @author Nicolas Rodriguez
- */
-
-
-/**
- * The type Apl main.
  */
 
 public class AplMain {
