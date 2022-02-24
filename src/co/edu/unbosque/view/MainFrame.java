@@ -9,23 +9,23 @@ import java.awt.*;
 public class MainFrame extends JFrame {
 
     /**
-     * Objeto de la clase MainPanel, que permite obtener el panel principal y mostrarlo
+     * MainPanel class object, which allows the main panel to be obtained and displayed
      */
     private final MainPanel mainPanel = new MainPanel();
     /**
-     * Objeto de la clase InvoicePanel, que permite obtener el panel de facturacion
+     * Object of the InvoicePanel class, which allows to obtain the invoicing panel.
      */
     private final InvoicePanel invoicePanel = new InvoicePanel();
     /**
-     * Objeto de la clase SoldStockPanel, que permite obtener el panel de cantidad vendido
+     * Object of the SoldStockPanel class, which allows to obtain the sold quantity panel.
      */
     private final SoldStockPanel soldStockPanel = new SoldStockPanel();
     /**
-     * Objeto de la clase DescriptioPanel, que permite obtener el panel de descripcion
+     * Object of the DescriptioPanel class, which allows to obtain the description panel.
      */
     private final DescriptionPanel descriptionPanel = new DescriptionPanel();
     /**
-     * Objeto de la clase AveragePanel, que permite obtener el panel de promedio
+     * Object of the AveragePanel class, which allows to obtain the average panel.
      */
     private final AveragePanel averagePanel = new AveragePanel();
 

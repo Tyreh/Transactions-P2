@@ -4,17 +4,17 @@ import javax.swing.*;
 import java.awt.*;
 
 /**
- * clase MainPanel, el cual permite crear un panel en este caso el panel principal
+ * MainPanel class, which allows you to create a panel, in this case the main panel.
  */
 public class MainPanel extends JPanel {
 
     /**
-     * Objeto array de botones el cual contiene 6 botones
+     * Object array of buttons which contains 6 buttons
      */
     private final JButton[] buttons = new JButton[5];
 
     /**
-     * Constructor de la clase MainPanel
+     * MainPanel class constructor
      */
     public MainPanel() {
         this.setLayout(new FlowLayout());
@@ -23,7 +23,7 @@ public class MainPanel extends JPanel {
     }
 
     /**
-     * Metodo que permite inicializar cada objeto declarado en el panel
+     * Method to initialize each object declared in the panel.
      */
     public void init() {
         String[] buttonNames = {"SUM TOTAL SALES", "FIND BY INVOICE NUMBER", "COUNT BY STOCK CODE", "AVERAGE MONTHLY SALES", "FIND PARTIALLY BY DESCRIPTION"};
