@@ -5,19 +5,51 @@ package co.edu.unbosque.model;
  */
 public class Transaction {
 
+    /**
+     * Invoice number from csv
+     */
+
     private String invoiceNumber;
+
+    /**
+     * Stock number of a product from csv
+     */
 
     private String stockCode;
 
+    /**
+     * Description of the csv product
+     */
+
     private String description;
+
+    /**
+     * Quantity of a product
+     */
 
     private String quantity;
 
+    /**
+     * Invoice date form csv
+     */
+
     private String invoiceDate;
+
+    /**
+     * Unit price of a sale in csv
+     */
 
     private String unitPrice;
 
+    /**
+     * Id to identify a customer in the csv
+     */
+
     private String customerId;
+
+    /**
+     * To identify which country the invoice is from
+     */
 
     private String country;
 

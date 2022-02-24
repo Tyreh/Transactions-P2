@@ -39,6 +39,15 @@ public class TableManager extends JPanel {
      */
     protected JLabel footerLabel;
 
+    /**
+     * Initializes the footer panel.
+     * @param footerPanel if true, add the footer panel to BorderLayout Page end
+     * @param buttonText button text
+     * @param commandButton keyword to activate the button
+     * @param columns columns with program content
+     * @param fieldLabelArray
+     */
+
     public TableManager(boolean footerPanel, String buttonText, String commandButton, String[] columns, String[] fieldLabelArray) {
         this.setLayout(new BorderLayout());
 
@@ -49,6 +58,16 @@ public class TableManager extends JPanel {
             this.add(this.footerPanel(), BorderLayout.PAGE_END);
         }
     }
+
+    /**
+     *  Initializes a new Table Manager.
+     * @param footerPanel if true, add the footer panel to BorderLayout Page end
+     * @param buttonText button text
+     * @param commandButton keyword to activate the button
+     * @param columns columns with program content
+     * @param checkBoxLabelArray checks if a BoxLabel is active.
+     */
+
 
     public TableManager(boolean footerPanel, String buttonText, Object commandButton, String[] columns, String[] checkBoxLabelArray) {
         this.setLayout(new BorderLayout());
@@ -61,6 +80,16 @@ public class TableManager extends JPanel {
         }
     }
 
+    /**
+     *  Initializes a new Table Manager.
+     * @param footerPanel if true, add the footer panel to BorderLayout Page end
+     * @param buttonText button text
+     * @param commandButton keyword to activate the button
+     * @param columns columns with program content
+     * @param checkBoxLabelsArray checks if a BoxLabel is active.
+     */
+
+
     public TableManager(boolean footerPanel, String buttonText, String commandButton, String[] columns, String[] fieldLabelArray, String[] checkBoxLabelsArray) {
         this.setLayout(new BorderLayout());
 
@@ -72,6 +101,14 @@ public class TableManager extends JPanel {
         }
     }
 
+
+    /**
+     * Initializes a new header panel.
+     * @param buttonText Text Button
+     * @param commandButton keyword to activate the button
+     * @param fieldLabelArray
+     * @return the panel with the new params
+     */
 
     private JPanel headerPanel(String buttonText, String commandButton, String[] fieldLabelArray) {
         var panel = new JPanel(new FlowLayout());
@@ -88,6 +125,16 @@ public class TableManager extends JPanel {
         panel.add(button);
         return panel;
     }
+
+    /**
+     * Initializes a new header panel.
+     * @param buttonText Text Button
+     * @param commandButton keyword to activate the button
+     * @param fieldLabelArray
+     * @param checkBoxLabelArray checks if a BoxLabel is active.
+     * @return the panel with the new params
+     */
+
 
     private JPanel headerPanel(String buttonText, String commandButton, String[] fieldLabelArray, String[] checkBoxLabelArray) {
         var panel = new JPanel(new FlowLayout());
@@ -113,6 +160,15 @@ public class TableManager extends JPanel {
         return panel;
     }
 
+    /**
+     * Initializes a new header panel.
+     * @param buttonText Text Button.
+     * @param commandButton keyword to activate the button .
+     * @param checkBoxLabelArray checks if a BoxLabel is active.
+     * @return
+     */
+
+
     private JPanel headerPanel(String buttonText, Object commandButton, String[] checkBoxLabelArray) {
         var panel = new JPanel(new FlowLayout());
         this.checkBoxesArray = new JCheckBox[checkBoxLabelArray.length];
@@ -127,6 +183,13 @@ public class TableManager extends JPanel {
         return panel;
     }
 
+    /**
+     * Initializes a new center panel.
+     * @param columns
+     * @return the panel with the new params
+     */
+
+
     private JPanel centerPanel(String[] columns) {
         var panel = new JPanel(new GridLayout());
         this.defaultTableModel = new DefaultTableModel(columns, 0);
@@ -137,6 +200,11 @@ public class TableManager extends JPanel {
         panel.add(this.scrollTable);
         return panel;
     }
+
+    /**
+     * Initializes a new footer panel.
+     * @return
+     */
 
     protected JPanel footerPanel() {
         var panel = new JPanel(new FlowLayout());

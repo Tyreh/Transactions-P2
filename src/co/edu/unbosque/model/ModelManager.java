@@ -16,7 +16,16 @@ import java.util.*;
  */
 public class ModelManager {
 
+    /**
+     * ArrayList of type transaction that stores all csv transactions.
+     */
+
     private final ArrayList<Transaction> transactionsArray = new ArrayList<>();
+
+    /**
+     * Allows us to access date data
+     */
+
     private final SimpleDateFormat WRONG_DATE_FORMAT = new SimpleDateFormat("MM/dd/yyyy");
     private final SimpleDateFormat CORRECT_DATE_FORMAT = new SimpleDateFormat("dd/MM/yyyy");
 

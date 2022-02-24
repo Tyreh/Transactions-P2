@@ -78,14 +78,18 @@ public class Controller implements ActionListener {
     }
 
     /**
-     * Item state changed.
-     *
-     * @param e the e
+     * Checks if an state is changing.
+     * @param e ItemEvent interator
      */
     public void itemStateChanged(ItemEvent e) {
         checkBoxState = e.getStateChange();
         System.out.println(checkBoxState);
     }
+
+    /**
+     * Checks and registers button commands
+     * @param e ActionEvent iterator
+     */
 
     @Override
     public void actionPerformed(ActionEvent e) {
